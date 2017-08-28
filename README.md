@@ -23,10 +23,10 @@ npm i -D @immowelt/docker-publish
 
 #### Example usage
 ```sh
-DEBUG=@immowelt* docker-publish --github-api-tags-url=https://api.github.com/repos/paulirish/pwmetrics/tags --dockerImage=immowelt/pwmetrics --versionBuildArgKey=PWMETRICS_VERSION
+DEBUG=@immowelt* docker-publish --github-api-tags-url=https://api.github.com/repos/nodejs/node/tags --dockerImage=immowelt/node --versionBuildArgKey=NODE_VERSION
 ```
 
-This command would build and push a docker image with the `Dockerfile` located in the processes `cwd` for each valid semver release tag that can be found under the given endpoint. Each image gets built with an `--build-arg` that matches the provided `versionBuildArgKey`, gets tagged based on the `dockerImage` option and the current iterated version tag e.g. `immowelt/pwmetrics:2.0.1`.
+This command would build and push a docker image with the `Dockerfile` located in the processes `cwd` for each valid semver release tag of the official NodeJS repository. During the build we forward an `--build-arg`, e.g. `NODE_VERSION` with the current iterated version. After the build is done the image gets tagged e.g. `immowelt/node:8.3.0`.
 
 After the iteration of releases is done, we also re-tag the `latest` tag of docker to make sure that the `latest` tag does in fact point to the last released version.
 
