@@ -1,6 +1,6 @@
 {
   "name": "@immowelt/docker-publish",
-  "version": "0.1.0",
+  "version": "0.0.0-development",
   "private": true,
   "author": "Immonet dev team <aegaeon@immonet.de> (https://immonet.de)",
   "license": "MIT",
@@ -24,7 +24,8 @@
     "flow-typed": "flow-typed",
     "flow-typed-install": "flow-typed install --ignoreDeps=bundled peer --overwrite",
     "prepare": "npm run flow-typed-install",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post"
   },
   "engines": {
     "node": ">=8.3.0",
@@ -42,6 +43,8 @@
     "@immowelt/babel-preset-immowelt": "^1.0.2",
     "@immowelt/eslint-config-immowelt-react": "^1.0.1",
     "@immowelt/jest-preset-node": "^1.0.0",
+    "@inkdpixels/commit-analyzer": "^1.0.0",
+    "@inkdpixels/release-notes-generator": "^1.0.0",
     "babel-cli": "^6.26.0",
     "eslint": "^4.4.1",
     "flow-bin": "^0.53.0",
@@ -50,6 +53,15 @@
     "jest": "^20.0.4",
     "nock": "^9.0.14",
     "rimraf": "^2.6.1",
-    "sinon": "^3.2.1"
+    "sinon": "^3.2.1",
+    "semantic-release": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ImmoweltGroup/docker-publish.git"
+  },
+  "release": {
+    "analyzeCommits": "@inkdpixels/commit-analyzer",
+    "generateNotes": "@inkdpixels/release-notes-generator"
   }
 }
