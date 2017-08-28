@@ -10,9 +10,9 @@
 npm i -D @immowelt/docker-publish
 ```
 
-## Usage
+## Usage and examples
 ```
-  Usage: docker-publish [options]
+  Usage: DEBUG=@immowelt* docker-publish [options]
 
   Options:
 
@@ -20,6 +20,15 @@ npm i -D @immowelt/docker-publish
     --versionBuildArgKey <string>
     --dockerImage <string>
 ```
+
+#### Example usage
+```sh
+DEBUG=@immowelt* docker-publish --github-api-tags-url=https://api.github.com/repos/paulirish/pwmetrics/tags --dockerImage=immowelt/pwmetrics --versionBuildArgKey=PWMETRICS_VERSION
+```
+
+This command would build and push a docker image with the `Dockerfile` located in the processes `cwd` for each valid semver release tag that can be found under the given endpoint. Each image gets built with an `--build-arg` that matches the provided `versionBuildArgKey`, gets tagged based on the `dockerImage` option and the current iterated version tag e.g. `immowelt/pwmetrics:2.0.1`.
+
+After the iteration of releases is done, we also re-tag the `latest` tag of docker to make sure that the `latest` tag does in fact point to the last released version.
 
 ## Contributing
 Please make sure that you adhere to our code style, you can validate your changes / PR by executing `npm run lint`.
