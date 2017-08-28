@@ -1,5 +1,7 @@
 # @immowelt/docker-publish
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ImmoweltGroup/docker-publish.svg)](https://greenkeeper.io/)
+
 [![Powered by Immowelt](https://img.shields.io/badge/powered%20by-immowelt-yellow.svg?colorB=ffb200)](https://stackshare.io/immowelt-group/)
 [![Build Status](https://travis-ci.org/ImmoweltGroup/docker-publish.svg?branch=master)](https://travis-ci.org/ImmoweltGroup/docker-publish)
 
