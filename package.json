@@ -23,7 +23,8 @@
     "flow": "flow",
     "flow-typed": "flow-typed",
     "flow-typed-install": "flow-typed install --ignoreDeps=bundled peer --overwrite",
-    "prepare": "npm run flow-typed-install"
+    "prepare": "npm run flow-typed-install",
+    "prepublishOnly": "npm run build"
   },
   "engines": {
     "node": ">=8.3.0",
