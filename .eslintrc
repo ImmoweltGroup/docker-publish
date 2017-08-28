@@ -1,0 +1,9 @@
+{
+  "extends": "@immowelt/eslint-config-immowelt-react",
+  "settings": {
+    "polyfills": ['fetch']
+  },
+  "globals": {
+    "__ENV_DEV__": true
+  }
+}
