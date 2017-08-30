@@ -15,7 +15,7 @@ npm i -D @immowelt/docker-publish
 
 ## Usage and examples
 ```
-  Usage: docker-publish [options]
+  Usage: DEBUG=@immowelt* docker-publish [options]
 
   Options:
 
@@ -27,7 +27,7 @@ npm i -D @immowelt/docker-publish
 
 #### Example usage
 ```sh
-docker-publish --tags=8.2.0-alpine,8.4.0-alpine --image=immowelt/node --arg=NODE_VERSION --latest
+DEBUG=@immowelt* docker-publish --tags=8.2.0-alpine,8.4.0-alpine --image=immowelt/node --arg=NODE_VERSION --latest
 ```
 
 This command would build and push a docker image with the `Dockerfile` located in the processes `cwd` for each valid semver release tag of the official NodeJS repository. During the build we forward an `--build-arg`, e.g. `NODE_VERSION` with the current iterated version. After the build is done the image gets tagged e.g. `immowelt/node:8.3.0`.
