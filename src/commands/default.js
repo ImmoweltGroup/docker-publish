@@ -1,6 +1,19 @@
 // @flow
 
 type ExecFn = (arg: string, isLogging?: boolean) => Promise<void>;
+type Opts = {
+	tags: Array<string>,
+	image: string,
+	arg: string,
+	latest?: string,
+	strip?: string
+};
+type BuildOpts = {
+	image: string,
+	arg: string,
+	version: string,
+	tag?: string
+};
 
 const logger = require('log-fancy')('@immowelt/docker-publish');
 const fetch = require('node-fetch').default;
@@ -8,7 +21,7 @@ const isUrl = require('is-url');
 const semver = require('semver');
 const asyncExec = require('async-exec');
 
-async function buildAndPush(opts: {image: string, arg: string, version: string, tag?: string}) {
+async function buildAndPush(opts: BuildOpts) {
 	const exec: ExecFn = asyncExec.default;
 	const {
 		image,
@@ -35,9 +48,10 @@ async function buildAndPush(opts: {image: string, arg: string, version: string, 
 	logger.success(`Successfuly pushed ${dockerImageTag}!`);
 }
 
-module.exports = async (opts: {tags: Array<string>, image: string, arg: string, latest?: string}) => {
+module.exports = async (opts: Opts) => {
 	const {
 		latest = 'latest',
+		strip = false,
 		tags,
 		image,
 		arg
@@ -69,11 +83,13 @@ module.exports = async (opts: {tags: Array<string>, image: string, arg: string, 
 	//
 	for (var i = 0; i < versionTags.length; i++) {
 		const version = versionTags[i];
+		const tag = strip && strip.length ? version.replace(strip, '') : version;
 
 		await buildAndPush({ // eslint-disable-line no-await-in-loop
 			image,
 			arg,
-			version
+			version,
+			tag
 		});
 	}
 

@@ -94,4 +94,21 @@ describe('defaultFlow()', () => {
 		expect(exec.args[1][0]).toContain('docker push');
 		expect(exec.args[1][0]).toContain('foo/bar:latest');
 	});
+
+	it('should allow the stripping of parts from the version tags.', async () => {
+		await defaultFlow({
+			tags: ['2.2.1-alpine', '3.0.0-alpine'],
+			image: 'foo/bar',
+			strip: '-alpine',
+			arg: 'BAR_VERSION'
+		});
+
+		expect(exec.args[0][0]).toContain('-t foo/bar:2.2.1');
+		expect(exec.args[0][0]).toContain('--build-arg BAR_VERSION=2.2.1-alpine');
+		expect(exec.args[1][0]).toContain('foo/bar:2.2.1');
+
+		expect(exec.args[2][0]).toContain('-t foo/bar:3.0.0');
+		expect(exec.args[2][0]).toContain('--build-arg BAR_VERSION=3.0.0-alpine');
+		expect(exec.args[3][0]).toContain('foo/bar:3.0.0');
+	});
 });

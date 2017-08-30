@@ -23,6 +23,7 @@ npm i -D @immowelt/docker-publish
     --arg    <string>             The build-arg key to use when forwarding the current iterated tag.
     --image  <string>             The image name for the docker images to create.
     --latest <string>             An optional 'latest' tag to specify, defaults to 'latest'
+    --strip  <string>             An optional string which will be removed from the docker tags to generate. E.g. useful if your repo is named 'foo/java-alpine' and you don't want to repeat the '-alpine' keyword in tags.
 ```
 
 #### Example usage

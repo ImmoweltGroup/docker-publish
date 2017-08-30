@@ -10,6 +10,7 @@ cli
 	.option('--image <string>', 'The docker image name to use as a base.')
 	.option('--arg <string>', 'The build-arg key which will be used to.')
 	.option('--latest <string>', 'The tag/version to pass into the docker build when building your latest image, defaults to "latest".')
+	.option('--strip <string>', 'An optional string to strip from the generated/fetched docker tags.')
 	.description('Uses/Fetches the given tags, filters out release only tags based on semver and builds/pushes the docker images.')
 	.version(pkg.version)
 	.parse(process.argv);
@@ -20,13 +21,14 @@ if (!cli.rawArgs.length) {
 }
 
 (async function () {
-	const {tags, image, arg, latest} = cli;
+	const {tags, image, arg, latest, strip} = cli;
 
 	try {
 		await defaultFlow({
 			latest,
 			tags,
 			image,
+			strip,
 			arg
 		});
 	} catch (err) {
