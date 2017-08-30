@@ -7,7 +7,7 @@
   "description": "A simple CLI to build and publish a repository with an Dockerfile based on GitHub repository release tags.",
   "main": "dist/bin/docker-publish",
   "bin": {
-    "docker-publish": "./dist/bin/docker-publish"
+    "docker-publish": "./dist/index.js"
   },
   "scripts": {
     "test": "npm run lint && npm run flow && npm run jest:coverage",

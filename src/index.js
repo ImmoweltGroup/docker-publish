@@ -4,8 +4,8 @@ process.env.DEBUG = process.env.DEBUG || '@immowelt*';
 
 const logger = require('log-fancy')('@immowelt/docker-publish');
 const cli = require('commander');
-const defaultFlow = require('./../commands/default.js');
-const pkg = require('./../../package.json');
+const defaultFlow = require('./commands/default.js');
+const pkg = require('./../package.json');
 
 cli
 	.option('--tags <url | Array<string>>', 'The JSON array to parse or the GitHub API URL which points to a repositories tags.', val => val.split(','))
@@ -17,8 +17,7 @@ cli
 
 if (cli.rawArgs.length !== 3) {
 	cli.help();
-
-	return;
+	process.exit(0);
 }
 
 (async function () {
