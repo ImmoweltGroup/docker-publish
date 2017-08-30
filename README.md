@@ -6,7 +6,7 @@
 [![Dependency Status](https://david-dm.org/ImmoweltGroup/docker-publish.svg)](https://david-dm.org/ImmoweltGroup/docker-publish)
 [![devDependency Status](https://david-dm.org/ImmoweltGroup/docker-publish/dev-status.svg)](https://david-dm.org/ImmoweltGroup/docker-publish#info=devDependencies&view=table)
 
-> A simple CLI to build and publish a repository with an Dockerfile based on GitHub repository release tags.
+> A simple CLI to build and publish a repository with an Dockerfile based on semver versions or GitHub repository release tags.
 
 ## Installing
 ```sh
@@ -19,14 +19,14 @@ npm i -D @immowelt/docker-publish
 
   Options:
 
-    --github-api-tags-url <url>
-    --versionBuildArgKey <string>
-    --dockerImage <string>
+    --tags <url>
+    --arg <string>
+    --image <string>
 ```
 
 #### Example usage
 ```sh
-DEBUG=@immowelt* docker-publish --github-api-tags-url=https://api.github.com/repos/nodejs/node/tags --dockerImage=immowelt/node --versionBuildArgKey=NODE_VERSION
+docker-publish --tags=8.2.0-alpine,8.4.0-alpine --image=immowelt/node --arg=NODE_VERSION
 ```
 
 This command would build and push a docker image with the `Dockerfile` located in the processes `cwd` for each valid semver release tag of the official NodeJS repository. During the build we forward an `--build-arg`, e.g. `NODE_VERSION` with the current iterated version. After the build is done the image gets tagged e.g. `immowelt/node:8.3.0`.

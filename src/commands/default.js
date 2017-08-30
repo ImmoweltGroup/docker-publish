@@ -1,28 +1,26 @@
 // @flow
 
 type ExecFn = (arg: string, isLogging?: boolean) => Promise<void>;
-type TagType = {
-	name: string
-}
 
 const logger = require('log-fancy')('@immowelt/docker-publish');
 const fetch = require('node-fetch').default;
+const isUrl = require('is-url');
 const semver = require('semver');
 const asyncExec = require('async-exec');
 
-async function buildAndPush(opts: {dockerImage: string, versionBuildArgKey: string, version: string}) {
+async function buildAndPush(opts: {image: string, arg: string, version: string}) {
 	const exec: ExecFn = asyncExec.default;
 	const {
-		dockerImage,
-		versionBuildArgKey,
+		image,
+		arg,
 		version
 	} = opts;
-	const dockerImageTag = `${dockerImage}:${version}`;
+	const dockerImageTag = `${image}:${version}`;
 
 	logger.info(`Building ${dockerImageTag}...`);
 
 	try {
-		await exec(`docker build --pull --no-cache --build-arg ${versionBuildArgKey}=${version} -t ${dockerImageTag} .`);
+		await exec(`docker build --pull --no-cache --build-arg ${arg}=${version} -t ${dockerImageTag} .`);
 	} catch (e) {
 		logger.warn(`Building ${dockerImageTag} failed, continuing to the next published version.`);
 		return;
@@ -35,16 +33,25 @@ async function buildAndPush(opts: {dockerImage: string, versionBuildArgKey: stri
 	logger.success(`Successfuly pushed ${dockerImageTag}!`);
 }
 
-async function defaultFlow(opts: {githubApiTagsUrl: string, dockerImage: string, versionBuildArgKey: string}) {
+module.exports = async (opts: {tags: Array<string>, image: string, arg: string}) => {
 	const {
-		githubApiTagsUrl,
-		dockerImage,
-		versionBuildArgKey
+		tags,
+		image,
+		arg
 	} = opts;
+	const url = tags[0];
+	let versionTags = tags;
 
-	const res = await fetch(githubApiTagsUrl);
-	const tags: Array<TagType> = await res.json();
-	const versionTags = tags.map(tag => semver.clean(tag.name)).filter(Boolean);
+	if (typeof url === 'string' && isUrl(url)) {
+		const res = await fetch(url);
+		const json = await res.json();
+
+		versionTags = json.map(tag => {
+			const str = typeof tag === 'object' ? tag.name : tag;
+
+			return semver.clean(str);
+		}).filter(Boolean);
+	}
 
 	//
 	// Build and push each tag.
@@ -53,8 +60,8 @@ async function defaultFlow(opts: {githubApiTagsUrl: string, dockerImage: string,
 		const version = versionTags[i];
 
 		await buildAndPush({ // eslint-disable-line no-await-in-loop
-			dockerImage,
-			versionBuildArgKey,
+			image,
+			arg,
 			version
 		});
 	}
@@ -63,10 +70,8 @@ async function defaultFlow(opts: {githubApiTagsUrl: string, dockerImage: string,
 	// Renew the generic 'latest' tag of the repository to the latest version of the pwmetrics CLI.
 	//
 	await buildAndPush({
-		dockerImage,
-		versionBuildArgKey,
+		image,
+		arg,
 		version: 'latest'
 	});
-}
-
-module.exports = defaultFlow;
+};

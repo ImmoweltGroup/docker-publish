@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 
+process.env.DEBUG = process.env.DEBUG || '@immowelt*';
+
 const logger = require('log-fancy')('@immowelt/docker-publish');
 const cli = require('commander');
 const defaultFlow = require('./../commands/default.js');
 const pkg = require('./../../package.json');
 
 cli
-	.option('--github-api-tags-url <url>', 'The file path of the config file you want to use.')
-	.option('--dockerImage <string>', 'The path / url to the docker image (Note that we append the target tag via the "--dockerTag" option).')
-	.option('--versionBuildArgKey <string>', 'The app ID of the instance.')
-	.description('Fetches the given tags, filters out release only tags based on semver and builds/pushes the given docker image.')
+	.option('--tags <url | Array<string>>', 'The JSON array to parse or the GitHub API URL which points to a repositories tags.', val => val.split(','))
+	.option('--image <string>', 'The docker image name to use as a base.')
+	.option('--arg <string>', 'The build-arg key which will be used to.')
+	.description('Uses/Fetches the given tags, filters out release only tags based on semver and builds/pushes the docker images.')
 	.version(pkg.version)
 	.parse(process.argv);
 
@@ -20,13 +22,13 @@ if (cli.rawArgs.length !== 3) {
 }
 
 (async function () {
-	const {githubApiTagsUrl, dockerImage, versionBuildArgKey} = cli;
+	const {tags, image, arg} = cli;
 
 	try {
 		await defaultFlow({
-			githubApiTagsUrl,
-			dockerImage,
-			versionBuildArgKey
+			tags,
+			image,
+			arg
 		});
 	} catch (err) {
 		logger.error(`Something went wrong while building and pushing the images:`);
