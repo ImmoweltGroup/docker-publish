@@ -23,7 +23,8 @@ async function buildAndPush(opts: {image: string, arg: string, version: string, 
 	try {
 		await exec(`docker build --pull --no-cache --build-arg ${arg}=${version} -t ${dockerImageTag} .`);
 	} catch (e) {
-		logger.warn(`Building ${dockerImageTag} failed, continuing to the next published version.`);
+		logger.warn(`Building ${dockerImageTag} failed with message "${e.message}", continuing to the next published version.`);
+		logger.error(e);
 		return;
 	}
 
