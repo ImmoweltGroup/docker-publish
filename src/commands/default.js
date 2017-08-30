@@ -44,6 +44,14 @@ module.exports = async (opts: {tags: Array<string>, image: string, arg: string, 
 	const url = tags[0];
 	let versionTags = tags;
 
+	['image', 'tags', 'arg'].forEach(key => {
+		const value = opts[key];
+
+		if (!value) {
+			throw new Error('Please specify a --tags option to the CLI.');
+		}
+	});
+
 	if (typeof url === 'string' && isUrl(url)) {
 		const res = await fetch(url);
 		const json = await res.json();
