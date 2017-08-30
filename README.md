@@ -15,7 +15,7 @@ npm i -D @immowelt/docker-publish
 
 ## Usage and examples
 ```
-  Usage: DEBUG=@immowelt* docker-publish [options]
+  Usage: docker-publish [options]
 
   Options:
 
