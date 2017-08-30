@@ -22,10 +22,11 @@ if (cli.rawArgs.length !== 3) {
 }
 
 (async function () {
-	const {tags, image, arg} = cli;
+	const {tags, image, arg, latest} = cli;
 
 	try {
 		await defaultFlow({
+			latest,
 			tags,
 			image,
 			arg

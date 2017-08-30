@@ -8,14 +8,15 @@ const isUrl = require('is-url');
 const semver = require('semver');
 const asyncExec = require('async-exec');
 
-async function buildAndPush(opts: {image: string, arg: string, version: string}) {
+async function buildAndPush(opts: {image: string, arg: string, version: string, tag?: string}) {
 	const exec: ExecFn = asyncExec.default;
 	const {
 		image,
 		arg,
-		version
+		version,
+		tag = opts.version
 	} = opts;
-	const dockerImageTag = `${image}:${version}`;
+	const dockerImageTag = `${image}:${tag}`;
 
 	logger.info(`Building ${dockerImageTag}...`);
 
@@ -33,8 +34,9 @@ async function buildAndPush(opts: {image: string, arg: string, version: string})
 	logger.success(`Successfuly pushed ${dockerImageTag}!`);
 }
 
-module.exports = async (opts: {tags: Array<string>, image: string, arg: string}) => {
+module.exports = async (opts: {tags: Array<string>, image: string, arg: string, latest?: string}) => {
 	const {
+		latest = 'latest',
 		tags,
 		image,
 		arg
@@ -72,6 +74,7 @@ module.exports = async (opts: {tags: Array<string>, image: string, arg: string})
 	await buildAndPush({
 		image,
 		arg,
-		version: 'latest'
+		version: latest,
+		tag: 'latest'
 	});
 };

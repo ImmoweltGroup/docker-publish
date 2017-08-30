@@ -19,14 +19,15 @@ npm i -D @immowelt/docker-publish
 
   Options:
 
-    --tags <url>
-    --arg <string>
-    --image <string>
+    --tags   <List<string> | url> The Github tags API URL or the raw list of tags to iterate over.
+    --arg    <string>             The build-arg key to use when forwarding the current iterated tag.
+    --image  <string>             The image name for the docker images to create.
+    --latest <string>             An optional 'latest' tag to specify, defaults to 'latest'
 ```
 
 #### Example usage
 ```sh
-docker-publish --tags=8.2.0-alpine,8.4.0-alpine --image=immowelt/node --arg=NODE_VERSION
+docker-publish --tags=8.2.0-alpine,8.4.0-alpine --image=immowelt/node --arg=NODE_VERSION --latest
 ```
 
 This command would build and push a docker image with the `Dockerfile` located in the processes `cwd` for each valid semver release tag of the official NodeJS repository. During the build we forward an `--build-arg`, e.g. `NODE_VERSION` with the current iterated version. After the build is done the image gets tagged e.g. `immowelt/node:8.3.0`.

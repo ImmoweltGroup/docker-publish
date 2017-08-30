@@ -77,4 +77,21 @@ describe('defaultFlow()', () => {
 		expect(exec.args[5][0]).toContain('docker push');
 		expect(exec.args[5][0]).toContain('foo/bar:latest');
 	});
+
+	it('should allow the usage a custom latest tag.', async () => {
+		await defaultFlow({
+			tags: [],
+			image: 'foo/bar',
+			arg: 'BAR_VERSION',
+			latest: '5.0.1'
+		});
+
+		expect(exec.callCount).toBe(2);
+		expect(exec.args[0][0]).toContain('docker build');
+		expect(exec.args[0][0]).toContain('-t foo/bar:latest');
+		expect(exec.args[0][0]).toContain('--build-arg BAR_VERSION=5.0.1');
+
+		expect(exec.args[1][0]).toContain('docker push');
+		expect(exec.args[1][0]).toContain('foo/bar:latest');
+	});
 });
