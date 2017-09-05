@@ -37,7 +37,7 @@ After the iteration of releases is done, we also re-tag the `latest` tag of dock
 
 ## Contributing
 Please make sure that you adhere to our code style, you can validate your changes / PR by executing `npm run lint`.
-Visit the [eslint-config-immowelt-react](https://github.com/ImmoweltHH/eslint-config-immowelt-react) package for more information.
+Visit the [eslint-config-immowelt-react](https://github.com/ImmoweltGroup/eslint-config-immowelt-react) package for more information.
 
 ## Licensing
 See the LICENSE file at the root of the repository.
