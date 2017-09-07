@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// Do not silence the logger, if not explicitely wanted.
+process.env.DEBUG = process.env.DEBUG || '*immowelt*';
+
 const logger = require('log-fancy')('@immowelt/docker-publish');
 const cli = require('commander');
 const defaultFlow = require('./commands/default.js');
