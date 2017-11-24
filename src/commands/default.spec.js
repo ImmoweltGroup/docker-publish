@@ -1,4 +1,3 @@
-const sinon = require('sinon');
 const nock = require('nock');
 const asnycExec = require('async-exec');
 const defaultFlow = require('./default.js');
@@ -7,7 +6,9 @@ describe('defaultFlow()', () => {
   let exec;
 
   beforeEach(() => {
-    exec = sinon.stub(asnycExec, 'default').returns(Promise.resolve());
+    exec = jest
+      .spyOn(asnycExec, 'default')
+      .mockImplementation(jest.fn(() => Promise.resolve()));
     nock('http://localhost/')
       .get('/foo/bar/tags')
       .reply(200, [
@@ -21,7 +22,8 @@ describe('defaultFlow()', () => {
   });
 
   afterEach(() => {
-    exec.restore();
+    jest.restoreAllMocks();
+    jest.clearAllMocks();
   });
 
   it('should be a function.', () => {
@@ -35,20 +37,20 @@ describe('defaultFlow()', () => {
       arg: 'BAR_VERSION'
     });
 
-    expect(exec.callCount).toBe(4);
-    expect(exec.args[0][0]).toContain('docker build');
-    expect(exec.args[0][0]).toContain('-t foo/bar:2.0.1');
-    expect(exec.args[0][0]).toContain('--build-arg BAR_VERSION=2.0.1');
+    expect(exec).toHaveBeenCalledTimes(4);
+    expect(exec.mock.calls[0][0]).toContain('docker build');
+    expect(exec.mock.calls[0][0]).toContain('-t foo/bar:2.0.1');
+    expect(exec.mock.calls[0][0]).toContain('--build-arg BAR_VERSION=2.0.1');
 
-    expect(exec.args[1][0]).toContain('docker push');
-    expect(exec.args[1][0]).toContain('foo/bar:2.0.1');
+    expect(exec.mock.calls[1][0]).toContain('docker push');
+    expect(exec.mock.calls[1][0]).toContain('foo/bar:2.0.1');
 
-    expect(exec.args[2][0]).toContain('docker build');
-    expect(exec.args[2][0]).toContain('-t foo/bar:latest');
-    expect(exec.args[2][0]).toContain('--build-arg BAR_VERSION=latest');
+    expect(exec.mock.calls[2][0]).toContain('docker build');
+    expect(exec.mock.calls[2][0]).toContain('-t foo/bar:latest');
+    expect(exec.mock.calls[2][0]).toContain('--build-arg BAR_VERSION=latest');
 
-    expect(exec.args[3][0]).toContain('docker push');
-    expect(exec.args[3][0]).toContain('foo/bar:latest');
+    expect(exec.mock.calls[3][0]).toContain('docker push');
+    expect(exec.mock.calls[3][0]).toContain('foo/bar:latest');
   });
 
   it('should allow the usage of raw version tags.', async () => {
@@ -58,27 +60,27 @@ describe('defaultFlow()', () => {
       arg: 'BAR_VERSION'
     });
 
-    expect(exec.callCount).toBe(6);
-    expect(exec.args[0][0]).toContain('docker build');
-    expect(exec.args[0][0]).toContain('-t foo/bar:2.2.1');
-    expect(exec.args[0][0]).toContain('--build-arg BAR_VERSION=2.2.1');
+    expect(exec).toHaveBeenCalledTimes(6);
+    expect(exec.mock.calls[0][0]).toContain('docker build');
+    expect(exec.mock.calls[0][0]).toContain('-t foo/bar:2.2.1');
+    expect(exec.mock.calls[0][0]).toContain('--build-arg BAR_VERSION=2.2.1');
 
-    expect(exec.args[1][0]).toContain('docker push');
-    expect(exec.args[1][0]).toContain('foo/bar:2.2.1');
+    expect(exec.mock.calls[1][0]).toContain('docker push');
+    expect(exec.mock.calls[1][0]).toContain('foo/bar:2.2.1');
 
-    expect(exec.args[2][0]).toContain('docker build');
-    expect(exec.args[2][0]).toContain('-t foo/bar:3.0.0');
-    expect(exec.args[2][0]).toContain('--build-arg BAR_VERSION=3.0.0');
+    expect(exec.mock.calls[2][0]).toContain('docker build');
+    expect(exec.mock.calls[2][0]).toContain('-t foo/bar:3.0.0');
+    expect(exec.mock.calls[2][0]).toContain('--build-arg BAR_VERSION=3.0.0');
 
-    expect(exec.args[3][0]).toContain('docker push');
-    expect(exec.args[3][0]).toContain('foo/bar:3.0.0');
+    expect(exec.mock.calls[3][0]).toContain('docker push');
+    expect(exec.mock.calls[3][0]).toContain('foo/bar:3.0.0');
 
-    expect(exec.args[4][0]).toContain('docker build');
-    expect(exec.args[4][0]).toContain('-t foo/bar:latest');
-    expect(exec.args[4][0]).toContain('--build-arg BAR_VERSION=latest');
+    expect(exec.mock.calls[4][0]).toContain('docker build');
+    expect(exec.mock.calls[4][0]).toContain('-t foo/bar:latest');
+    expect(exec.mock.calls[4][0]).toContain('--build-arg BAR_VERSION=latest');
 
-    expect(exec.args[5][0]).toContain('docker push');
-    expect(exec.args[5][0]).toContain('foo/bar:latest');
+    expect(exec.mock.calls[5][0]).toContain('docker push');
+    expect(exec.mock.calls[5][0]).toContain('foo/bar:latest');
   });
 
   it('should allow the usage a custom latest tag.', async () => {
@@ -89,13 +91,13 @@ describe('defaultFlow()', () => {
       latest: '5.0.1'
     });
 
-    expect(exec.callCount).toBe(2);
-    expect(exec.args[0][0]).toContain('docker build');
-    expect(exec.args[0][0]).toContain('-t foo/bar:latest');
-    expect(exec.args[0][0]).toContain('--build-arg BAR_VERSION=5.0.1');
+    expect(exec).toHaveBeenCalledTimes(2);
+    expect(exec.mock.calls[0][0]).toContain('docker build');
+    expect(exec.mock.calls[0][0]).toContain('-t foo/bar:latest');
+    expect(exec.mock.calls[0][0]).toContain('--build-arg BAR_VERSION=5.0.1');
 
-    expect(exec.args[1][0]).toContain('docker push');
-    expect(exec.args[1][0]).toContain('foo/bar:latest');
+    expect(exec.mock.calls[1][0]).toContain('docker push');
+    expect(exec.mock.calls[1][0]).toContain('foo/bar:latest');
   });
 
   it('should allow the stripping of parts from the version tags.', async () => {
@@ -106,12 +108,16 @@ describe('defaultFlow()', () => {
       arg: 'BAR_VERSION'
     });
 
-    expect(exec.args[0][0]).toContain('-t foo/bar:2.2.1');
-    expect(exec.args[0][0]).toContain('--build-arg BAR_VERSION=2.2.1-alpine');
-    expect(exec.args[1][0]).toContain('foo/bar:2.2.1');
+    expect(exec.mock.calls[0][0]).toContain('-t foo/bar:2.2.1');
+    expect(exec.mock.calls[0][0]).toContain(
+      '--build-arg BAR_VERSION=2.2.1-alpine'
+    );
+    expect(exec.mock.calls[1][0]).toContain('foo/bar:2.2.1');
 
-    expect(exec.args[2][0]).toContain('-t foo/bar:3.0.0');
-    expect(exec.args[2][0]).toContain('--build-arg BAR_VERSION=3.0.0-alpine');
-    expect(exec.args[3][0]).toContain('foo/bar:3.0.0');
+    expect(exec.mock.calls[2][0]).toContain('-t foo/bar:3.0.0');
+    expect(exec.mock.calls[2][0]).toContain(
+      '--build-arg BAR_VERSION=3.0.0-alpine'
+    );
+    expect(exec.mock.calls[3][0]).toContain('foo/bar:3.0.0');
   });
 });
