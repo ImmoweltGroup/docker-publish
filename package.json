@@ -66,8 +66,7 @@
     "nock": "^9.0.14",
     "prettier": "^1.6.1",
     "rimraf": "^2.6.1",
-    "semantic-release": "^8.0.0",
-    "sinon": "^4.0.0"
+    "semantic-release": "^8.0.0"
   },
   "repository": {
     "type": "git",
