@@ -1,10 +1,10 @@
 # @immowelt/docker-publish
 
 [![Powered by Immowelt](https://img.shields.io/badge/powered%20by-immowelt-yellow.svg?colorB=ffb200)](https://stackshare.io/immowelt-group/)
-[![Greenkeeper badge](https://badges.greenkeeper.io/ImmoweltGroup/docker-publish.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/ImmoweltGroup/docker-publish.svg?branch=master)](https://travis-ci.org/ImmoweltGroup/docker-publish)
 [![Dependency Status](https://david-dm.org/ImmoweltGroup/docker-publish.svg)](https://david-dm.org/ImmoweltGroup/docker-publish)
 [![devDependency Status](https://david-dm.org/ImmoweltGroup/docker-publish/dev-status.svg)](https://david-dm.org/ImmoweltGroup/docker-publish#info=devDependencies&view=table)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovateapp.com/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 > A simple CLI to build and publish a repository with an Dockerfile based on semver versions or GitHub repository release tags.
