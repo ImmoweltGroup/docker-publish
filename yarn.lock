@@ -4032,9 +4032,9 @@ netrc@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/netrc/-/netrc-0.1.4.tgz#6be94fcaca8d77ade0a9670dc460914c94472444"
 
-nock@9.2.3:
-  version "9.2.3"
-  resolved "https://registry.yarnpkg.com/nock/-/nock-9.2.3.tgz#39738087d6a0497d3a165fb352612b38a2f9b92f"
+nock@9.2.4:
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-9.2.4.tgz#447ec8aedc7fe0234a93f5f3b2f678b999e51781"
   dependencies:
     chai "^4.1.2"
     debug "^3.1.0"
