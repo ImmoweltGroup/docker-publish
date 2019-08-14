@@ -64,7 +64,7 @@
     "lint-staged": "6.1.1",
     "nock": "9.6.1",
     "prettier": "1.18.2",
-    "rimraf": "2.7.0",
+    "rimraf": "2.7.1",
     "semantic-release": "^8.0.0"
   },
   "repository": {
