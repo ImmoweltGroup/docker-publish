@@ -48,7 +48,7 @@
     "semver": "^5.4.1"
   },
   "devDependencies": {
-    "@immowelt/babel-preset-immowelt-node": "1.1.0",
+    "@immowelt/babel-preset-immowelt-node": "1.1.1",
     "@immowelt/eslint-config-immowelt-react": "2.1.1",
     "@immowelt/jest-preset-node": "1.0.1",
     "@immowelt/styleguide-javascript": "1.0.11",
